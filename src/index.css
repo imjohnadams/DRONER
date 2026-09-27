@@ -1,0 +1,991 @@
+:root {
+  --bg: #05070a;
+  --panel: #090e14;
+  --panel-raised: #0c131b;
+  --line: #1a2632;
+  --line-soft: #131c25;
+  --text: #d6e2ec;
+  --text-dim: #7d8f9f;
+  --text-faint: #4d5f6e;
+  --cyan: #22d3ee;
+  --teal: #5eead4;
+  --amber: #fbbf24;
+  --red: #f43f5e;
+  --mono: ui-monospace, "SFMono-Regular", "JetBrains Mono", Menlo, Consolas,
+    monospace;
+
+  color-scheme: dark;
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  font-synthesis-weight: none;
+  -webkit-font-smoothing: antialiased;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  overflow: hidden;
+}
+
+/* ---------- shell ---------- */
+
+.cockpit {
+  display: flex;
+  flex-direction: column;
+  height: 100dvh;
+  overflow: hidden;
+}
+
+.cockpit-bar {
+  display: flex;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 0 18px;
+  height: 50px;
+  border-bottom: 1px solid var(--line);
+  background: linear-gradient(180deg, #0a1017, #06090d);
+}
+
+.brand {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  min-width: 0;
+}
+
+.brand-mark {
+  width: 9px;
+  height: 9px;
+  border-radius: 2px;
+  background: var(--cyan);
+  box-shadow: 0 0 12px rgba(34, 211, 238, 0.8);
+  align-self: center;
+}
+
+.brand-name {
+  font-family: var(--mono);
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+}
+
+.brand-sub {
+  font-size: 11px;
+  color: var(--text-faint);
+  letter-spacing: 0.08em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.mode-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  flex: 0 0 auto;
+  padding: 5px 12px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--panel-raised);
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.16em;
+}
+
+.mode-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: currentColor;
+  box-shadow: 0 0 8px currentColor;
+}
+
+.tone-neutral {
+  color: var(--text-dim);
+}
+.tone-live {
+  color: #a5f3fc;
+}
+.tone-cruise {
+  color: var(--cyan);
+  border-color: rgba(34, 211, 238, 0.4);
+}
+.tone-warn {
+  color: var(--amber);
+  border-color: rgba(251, 191, 36, 0.4);
+}
+.tone-danger {
+  color: var(--red);
+  border-color: rgba(244, 63, 94, 0.45);
+}
+.tone-dodgr {
+  color: #f472b6;
+  border-color: rgba(244, 114, 182, 0.45);
+}
+
+.cockpit-body {
+  display: grid;
+  grid-template-columns: 312px minmax(0, 1fr) 312px;
+  flex: 1 1 auto;
+  min-height: 0;
+}
+
+/* ---------- viewport ---------- */
+
+.viewport {
+  position: relative;
+  min-width: 0;
+  overflow: hidden;
+  background: var(--bg);
+}
+
+.warehouse {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.hud {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  pointer-events: none;
+}
+
+.hud-readouts {
+  display: flex;
+  gap: 2px;
+  padding: 2px;
+  border: 1px solid rgba(34, 211, 238, 0.16);
+  border-radius: 8px;
+  background: rgba(6, 11, 17, 0.72);
+  backdrop-filter: blur(6px);
+}
+
+.hud-cell {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  padding: 8px 12px;
+  border-radius: 6px;
+  background: rgba(13, 20, 28, 0.75);
+  font-family: var(--mono);
+}
+
+.hud-key {
+  font-size: 9px;
+  letter-spacing: 0.18em;
+  color: var(--text-faint);
+}
+
+.hud-value {
+  font-size: 17px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.02em;
+}
+
+.hud-mode {
+  font-size: 13px;
+  letter-spacing: 0.14em;
+}
+
+.hud-unit {
+  font-size: 10px;
+  color: var(--text-faint);
+}
+
+.hud-dodgr {
+  padding: 6px 10px;
+  border: 1px solid rgba(244, 114, 182, 0.35);
+  border-radius: 6px;
+  background: rgba(12, 5, 14, 0.72);
+  backdrop-filter: blur(6px);
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  color: #f9a8d4;
+  max-width: fit-content;
+}
+
+.hud-dodgr-line {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.hud-dodgr-sep {
+  color: rgba(244, 114, 182, 0.5);
+}
+
+.hud-win {
+  display: inline-block;
+  padding: 2px 6px;
+  border-radius: 4px;
+  background: linear-gradient(90deg, rgba(251, 191, 36, 0.22), rgba(244, 114, 182, 0.18));
+  color: #fde68a;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  animation: pulse 1.6s ease-in-out infinite;
+}
+
+.hud-alerts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.hud-alert {
+  padding: 4px 9px;
+  border: 1px solid currentColor;
+  border-radius: 4px;
+  background: rgba(6, 11, 17, 0.8);
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: 0.14em;
+  animation: pulse 1.4s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  50% {
+    opacity: 0.45;
+  }
+}
+
+.viewport-legend {
+  position: absolute;
+  bottom: 12px;
+  left: 16px;
+  right: 16px;
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+  pointer-events: none;
+}
+
+/* ---------- rails ---------- */
+
+/*
+ * Two equal squares per rail. Each panel scrolls on its own so a long panel
+ * can never push its neighbour off the screen.
+ */
+.rail {
+  display: grid;
+  grid-template-rows: 1fr 1fr;
+  min-height: 0;
+  background: var(--panel);
+}
+
+.rail-left {
+  border-right: 1px solid var(--line);
+}
+
+.rail-right {
+  border-left: 1px solid var(--line);
+}
+
+.panel {
+  min-height: 0;
+  padding: 14px 16px 18px;
+  overflow-y: auto;
+  border-bottom: 1px solid var(--line);
+  scrollbar-width: thin;
+  scrollbar-color: #1f2c3a transparent;
+}
+
+.panel:last-child {
+  border-bottom: none;
+}
+
+.panel-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+
+.panel-head h2 {
+  margin: 0;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--text);
+}
+
+.panel-tag {
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+}
+
+.row {
+  margin-bottom: 14px;
+}
+
+.row:last-child {
+  margin-bottom: 0;
+}
+
+.row-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 6px;
+}
+
+.row-head label,
+.row-head .battery-label {
+  font-size: 11.5px;
+  letter-spacing: 0.03em;
+  color: var(--text-dim);
+}
+
+.row-value {
+  font-family: var(--mono);
+  font-size: 11.5px;
+  font-variant-numeric: tabular-nums;
+  color: var(--teal);
+}
+
+.row-hint {
+  margin: 6px 0 0;
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+}
+
+/* ---------- statistics ---------- */
+
+.stat-list {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.stat {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 9px 0;
+  border-bottom: 1px solid var(--line-soft);
+}
+
+.stat:last-child {
+  border-bottom: none;
+}
+
+.stat-key {
+  font-size: 11.5px;
+  letter-spacing: 0.03em;
+  color: var(--text-dim);
+}
+
+.stat-value {
+  font-family: var(--mono);
+  font-size: 12px;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+  color: var(--teal);
+}
+
+.stat-value.is-na {
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  color: var(--text-faint);
+}
+
+.stat-value.is-warn {
+  color: var(--amber);
+}
+
+.stat-value.is-danger {
+  color: var(--red);
+}
+
+.stat-axis {
+  margin: 0 3px 0 8px;
+  font-size: 9px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+}
+
+.stat-axis:first-child {
+  margin-left: 0;
+}
+
+.stat-unit {
+  margin-left: 6px;
+  font-size: 9px;
+  letter-spacing: 0.1em;
+  color: var(--text-faint);
+}
+
+/* ---------- sliders ---------- */
+
+.slider-shell {
+  position: relative;
+  height: 24px;
+}
+
+.slider-shell::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  height: 4px;
+  margin-top: -2px;
+  border-radius: 2px;
+  background: #101922;
+  box-shadow: inset 0 0 0 1px var(--line);
+}
+
+.slider-shell.is-centered::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 1px;
+  height: 12px;
+  margin: -6px 0 0 -0.5px;
+  background: var(--line);
+}
+
+.slider-fill {
+  position: absolute;
+  top: 50%;
+  height: 4px;
+  margin-top: -2px;
+  border-radius: 2px;
+  background: linear-gradient(90deg, var(--cyan), var(--teal));
+  box-shadow: 0 0 10px rgba(34, 211, 238, 0.35);
+  pointer-events: none;
+}
+
+input[type='range'] {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  background: transparent;
+  appearance: none;
+  -webkit-appearance: none;
+  cursor: grab;
+}
+
+input[type='range']:active {
+  cursor: grabbing;
+}
+
+input[type='range']:disabled {
+  cursor: not-allowed;
+  opacity: 0.45;
+}
+
+input[type='range']::-webkit-slider-runnable-track {
+  height: 100%;
+  background: transparent;
+}
+
+input[type='range']::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 11px;
+  height: 20px;
+  border: 1px solid #6f8496;
+  border-radius: 3px;
+  background: linear-gradient(180deg, #f4f9fd, #b6c8d8);
+  box-shadow:
+    0 1px 3px rgba(0, 0, 0, 0.7),
+    0 0 12px rgba(34, 211, 238, 0.35);
+}
+
+input[type='range']::-moz-range-track {
+  height: 100%;
+  background: transparent;
+  border: none;
+}
+
+input[type='range']::-moz-range-thumb {
+  width: 9px;
+  height: 18px;
+  border: 1px solid #6f8496;
+  border-radius: 3px;
+  background: linear-gradient(180deg, #f4f9fd, #b6c8d8);
+  box-shadow:
+    0 1px 3px rgba(0, 0, 0, 0.7),
+    0 0 12px rgba(34, 211, 238, 0.35);
+}
+
+input[type='range']:focus-visible::-webkit-slider-thumb {
+  outline: 2px solid var(--cyan);
+  outline-offset: 1px;
+}
+
+input[type='range']:focus-visible::-moz-range-thumb {
+  outline: 2px solid var(--cyan);
+  outline-offset: 1px;
+}
+
+/* ---------- numeric input ---------- */
+
+/* Slider takes the slack; the box beside it is what recentres the range. */
+.tuner {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 94px;
+  gap: 9px;
+  align-items: center;
+}
+
+.numeric-shell {
+  position: relative;
+  display: flex;
+  align-items: center;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: #0d151d;
+  transition: border-color 120ms ease;
+}
+
+.numeric-shell:focus-within {
+  border-color: rgba(251, 191, 36, 0.55);
+  box-shadow: 0 0 0 1px rgba(251, 191, 36, 0.2);
+}
+
+.numeric-shell input {
+  flex: 1 1 auto;
+  width: 100%;
+  padding: 9px 10px;
+  border: none;
+  background: transparent;
+  color: var(--amber);
+  font-family: var(--mono);
+  font-size: 15px;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.04em;
+}
+
+.numeric-shell input:focus {
+  outline: none;
+}
+
+.numeric-shell.is-compact input {
+  padding: 6px 0 6px 8px;
+  font-size: 12.5px;
+  letter-spacing: 0.02em;
+}
+
+.numeric-unit {
+  padding-right: 11px;
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+}
+
+.numeric-shell.is-compact .numeric-unit {
+  padding: 0 7px 0 4px;
+  font-size: 9px;
+  letter-spacing: 0.06em;
+}
+
+/* ---------- flight deck ---------- */
+
+.deck-grid {
+  --shaft-width: 42px;
+  --shaft-height: 132px;
+
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 14px;
+  align-items: start;
+}
+
+.deck-grid.has-battery {
+  grid-template-columns: auto auto minmax(0, 1fr);
+}
+
+.throttle-block .row-head {
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
+  margin-bottom: 8px;
+}
+
+.throttle-body {
+  display: flex;
+  gap: 7px;
+}
+
+.throttle-scale {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: var(--shaft-height);
+  padding: 1px 0;
+  font-family: var(--mono);
+  font-size: 8px;
+  letter-spacing: 0.06em;
+  text-align: right;
+  color: var(--text-faint);
+}
+
+.throttle-shaft {
+  position: relative;
+  width: var(--shaft-width);
+  height: var(--shaft-height);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background:
+    repeating-linear-gradient(
+      180deg,
+      rgba(125, 211, 252, 0.09) 0 1px,
+      transparent 1px calc(25% - 0.25px)
+    ),
+    linear-gradient(180deg, #0a1118, #0e1822);
+  overflow: hidden;
+}
+
+.throttle-shaft.is-locked {
+  border-color: rgba(244, 63, 94, 0.28);
+}
+
+.battery-shaft {
+  overflow: hidden;
+}
+
+.battery-reserve-mark {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 0;
+  border-top: 1px dashed rgba(251, 191, 36, 0.55);
+  z-index: 1;
+  pointer-events: none;
+}
+
+.battery-fill {
+  border-top-color: var(--teal);
+  background: linear-gradient(
+    180deg,
+    rgba(94, 234, 212, 0.28),
+    rgba(94, 234, 212, 0.05)
+  );
+}
+
+.battery-shaft.is-reserve .battery-fill {
+  border-top-color: var(--amber);
+  background: linear-gradient(
+    180deg,
+    rgba(251, 191, 36, 0.32),
+    rgba(251, 191, 36, 0.06)
+  );
+}
+
+.battery-shaft.is-empty {
+  border-color: rgba(244, 63, 94, 0.4);
+}
+
+.throttle-fill {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-top: 1px solid var(--cyan);
+  background: linear-gradient(
+    180deg,
+    rgba(34, 211, 238, 0.26),
+    rgba(34, 211, 238, 0.04)
+  );
+  pointer-events: none;
+}
+
+/*
+ * The throttle is a horizontal range laid on its side, so its long axis has to
+ * be the shaft's height. Selectors stay at `input[type='range'].v-range` because
+ * the shared range rule above is more specific than a bare class.
+ */
+input[type='range'].v-range {
+  inset: auto;
+  left: 50%;
+  top: 50%;
+  width: var(--shaft-height);
+  height: var(--shaft-width);
+  transform: translate(-50%, -50%) rotate(-90deg);
+}
+
+/* A full-cross-axis cap sits square in the shaft like a desk fader. */
+input[type='range'].v-range::-webkit-slider-thumb {
+  width: 14px;
+  height: 100%;
+  border-radius: 4px;
+}
+
+input[type='range'].v-range::-moz-range-thumb {
+  width: 12px;
+  height: var(--shaft-width);
+  border-radius: 4px;
+}
+
+.deck-side {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  min-width: 0;
+}
+
+.ctl-hint {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin: 7px 0 0;
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+}
+
+kbd {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 17px;
+  padding: 2px 4px;
+  border: 1px solid var(--line);
+  border-bottom-width: 2px;
+  border-radius: 4px;
+  background: #111a23;
+  font-family: var(--mono);
+  font-size: 9px;
+  line-height: 1;
+  color: var(--text-dim);
+}
+
+/* ---------- action buttons ---------- */
+
+.actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-top: 14px;
+}
+
+.action {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 1px 8px;
+  padding: 9px 10px;
+  border: 1px solid var(--line);
+  border-radius: 7px;
+  background: var(--panel-raised);
+  color: var(--text);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  transition:
+    border-color 120ms ease,
+    background 120ms ease,
+    box-shadow 120ms ease;
+}
+
+.action:hover:not(:disabled) {
+  border-color: #2a3d4e;
+  background: #101a23;
+}
+
+.action:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.action-label {
+  grid-column: 1;
+  font-size: 12px;
+  letter-spacing: 0.03em;
+}
+
+.action-state {
+  grid-column: 1;
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+}
+
+.action kbd {
+  grid-column: 2;
+  grid-row: 1 / span 2;
+}
+
+.action.is-armed .action-state {
+  color: inherit;
+}
+
+.action.is-cruise.is-armed {
+  border-color: rgba(34, 211, 238, 0.6);
+  background: rgba(34, 211, 238, 0.1);
+  color: var(--cyan);
+  box-shadow: inset 0 0 24px rgba(34, 211, 238, 0.12);
+}
+
+.action.is-failsafe.is-armed {
+  border-color: rgba(251, 191, 36, 0.6);
+  background: rgba(251, 191, 36, 0.1);
+  color: var(--amber);
+  box-shadow: inset 0 0 24px rgba(251, 191, 36, 0.12);
+}
+
+.action.is-battery.is-armed {
+  border-color: rgba(94, 234, 212, 0.6);
+  background: rgba(94, 234, 212, 0.1);
+  color: var(--teal);
+  box-shadow: inset 0 0 24px rgba(94, 234, 212, 0.12);
+}
+
+.action.is-kill:hover:not(:disabled) {
+  border-color: rgba(244, 63, 94, 0.55);
+  background: rgba(244, 63, 94, 0.09);
+}
+
+.action.is-kill.is-armed {
+  border-color: rgba(244, 63, 94, 0.65);
+  background: rgba(244, 63, 94, 0.12);
+  color: var(--red);
+}
+
+.action:focus-visible {
+  outline: 2px solid var(--cyan);
+  outline-offset: 2px;
+}
+
+/* Avoidance mini-game toggle: full-width row under the primary grid. */
+.action.is-dodgr {
+  width: 100%;
+  margin-top: 8px;
+  justify-items: center;
+  gap: 2px;
+  border-style: dashed;
+  background: transparent;
+}
+
+.action.is-dodgr:hover:not(:disabled) {
+  border-color: rgba(244, 114, 182, 0.55);
+  background: rgba(244, 114, 182, 0.06);
+}
+
+.action.is-dodgr.is-armed {
+  border-style: solid;
+  border-color: rgba(244, 114, 182, 0.65);
+  background: rgba(244, 114, 182, 0.1);
+  color: #f9a8d4;
+  box-shadow: inset 0 0 24px rgba(244, 114, 182, 0.14);
+}
+
+.action.is-dodgr .action-label {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+/* ---------- responsive ---------- */
+
+/*
+ * Narrow: simulator on top, then the four panels as a 2x2. The rails hand
+ * their children straight to the body grid so the panels can pair up across
+ * what were two separate columns.
+ */
+@media (max-width: 1080px) {
+  body {
+    overflow: auto;
+  }
+
+  .cockpit {
+    height: auto;
+    min-height: 100dvh;
+    overflow: visible;
+  }
+
+  .cockpit-body {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-rows: minmax(240px, 46vh) auto auto;
+  }
+
+  /* Pinned so the four auto-placed panels fall in behind it, not above it. */
+  .viewport {
+    grid-column: 1 / -1;
+    grid-row: 1;
+  }
+
+  .rail {
+    display: contents;
+  }
+
+  .panel {
+    overflow: visible;
+    border-top: 1px solid var(--line);
+    border-bottom: none;
+  }
+
+  .panel:nth-of-type(odd) {
+    border-right: 1px solid var(--line);
+  }
+
+  .brand-sub {
+    display: none;
+  }
+}
+
+@media (max-width: 720px) {
+  .cockpit-body {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: minmax(240px, 46vh) auto;
+  }
+
+  .panel:nth-of-type(odd) {
+    border-right: none;
+  }
+}
+
+@media (max-width: 560px) {
+  .deck-grid {
+    --shaft-height: 150px;
+
+    gap: 12px;
+  }
+}
